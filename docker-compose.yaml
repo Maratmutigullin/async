@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+###> doctrine/doctrine-bundle ###
+  symfony-postgres:
+    image: postgis/postgis:15-3.3
+    container_name: 'async-postgres'
+    ports:
+      - "54324:5432"
+    env_file:
+      - .env.dev.local
+    environment:
+      TZ: "Europe/Moscow"
+    restart: unless-stopped
+###< doctrine/doctrine-bundle ###
+
+###> symfony/mailer ###
+  mailer:
+    image: axllent/mailpit
+    ports:
+      - "1025"
+      - "8025"
+    environment:
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1
+###< symfony/mailer ###
